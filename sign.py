@@ -14,9 +14,13 @@ with open('message.txt', 'rb') as f:
     h = SHA.new(message)
 
 signature = PKCS1_v1_5.new(key).sign(h)
+with open('signature.pem', 'wb') as f:
+    f.write(signature)
 
 
 pubkey = key.publickey()
 
 with open('pubkey.pem', 'wb') as f:
     f.write(pubkey.exportKey('PEM'))
+
+print(PKCS1_v1_5.new(pubkey).verify(h, signature))
